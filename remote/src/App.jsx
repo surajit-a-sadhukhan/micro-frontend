@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import RemoteWidget from '../../shared/components/RemoteWidget.jsx'
+import RemoteWidget from './components/RemoteWidget.jsx'
 import { incrementHost, incrementRemote } from './store.js'
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
       <p className="eyebrow">Micro Frontend Remote</p>
       <h1>Redux-managed feature app</h1>
       <p className="subtitle">
-        This app uses the same shared widget and shared Redux slice as the host.
+        The remote app exposes its widget and keeps its own local Redux state.
       </p>
 
       <RemoteWidget

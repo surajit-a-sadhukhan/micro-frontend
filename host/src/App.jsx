@@ -1,6 +1,8 @@
+import { lazy, Suspense } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import RemoteWidget from '../../shared/components/RemoteWidget.jsx'
 import { incrementHost, incrementRemote } from './store.js'
+
+const RemoteWidget = lazy(() => import('remote/RemoteWidget'))
 
 function App() {
   const dispatch = useDispatch()
@@ -22,7 +24,7 @@ function App() {
         <p className="eyebrow">Micro Frontend Host</p>
         <h1>Redux-powered shell</h1>
         <p className="subtitle">
-          The host now renders a shared widget component from a common layer.
+          The host now renders the remote widget through a federated runtime import.
         </p>
         <div className="stats-grid">
           <article>
@@ -45,18 +47,20 @@ function App() {
 
       <section className="frame-panel">
         <div className="frame-header">
-          <span>Shared remote widget</span>
+          <span>Federated remote widget</span>
           <span>{status}</span>
         </div>
 
-        <RemoteWidget
-          hostCounter={hostCounter}
-          remoteCounter={remoteCounter}
-          status={status}
-          lastSync={lastSync}
-          onHostIncrement={handleHostIncrement}
-          onRemoteIncrement={handleRemoteIncrement}
-        />
+        <Suspense fallback={<div>Loading remote widget…</div>}>
+          <RemoteWidget
+            hostCounter={hostCounter}
+            remoteCounter={remoteCounter}
+            status={status}
+            lastSync={lastSync}
+            onHostIncrement={handleHostIncrement}
+            onRemoteIncrement={handleRemoteIncrement}
+          />
+        </Suspense>
       </section>
     </div>
   )
